@@ -1,5 +1,4 @@
 import {
-  AnyAction,
   AsyncThunk,
   EntityAdapter,
   EntityState,
@@ -11,6 +10,7 @@ import {
 } from '@reduxjs/toolkit';
 import { Movie, Status } from '../interfaces';
 import { moviesService } from './movie.service';
+import { MovieModel } from '../models';
 
 export const MOVIE_FEATURE_KEY = 'movies';
 
@@ -24,18 +24,21 @@ export interface MovieState extends EntityState<Movie> {
   total: number;
 }
 
-const moviesAdapter: EntityAdapter<Movie> = createEntityAdapter<Movie>();
+const moviesAdapter: EntityAdapter<Movie> = createEntityAdapter<Movie>({
+    selectId: (entity: Movie) => entity.imdbID,
+  }
+);
 
 export const fetchMovies = createAsyncThunk(
   `${MOVIE_FEATURE_KEY}/fetchMovies`,
   async (search: string, { rejectWithValue }) => {
     try {
       const response: { count: number, rows: Movie[] } =
-        await moviesService.get(search, { });
+        await moviesService.get(search, {});
 
       return response;
     } catch (err) {
-      return rejectWithValue(err.response.data)
+      return rejectWithValue(err);
     }
   }
 );
@@ -49,7 +52,7 @@ export const fetchMovieById = createAsyncThunk(
 
       return response;
     } catch (err) {
-      return rejectWithValue(err.response.data)
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -109,21 +112,21 @@ const movieSlice = createSlice({
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {
-        state.status = {
-          ...state.status,
-          pending: true,
-        };
-      })
+          state.status = {
+            ...state.status,
+            pending: true,
+          };
+        })
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action: any) => {
-        state.status = {
-          resolved: false,
-          rejected: true,
-          pending: false,
-          err: (action.payload ? action.payload?.message : action.error.message) || 'Request was rejected.',
-        };
-      });
+          state.status = {
+            resolved: false,
+            rejected: true,
+            pending: false,
+            err: (action.payload ? action.payload?.message : action.error.message) || 'Request was rejected.',
+          };
+        });
   },
 });
 
@@ -145,7 +148,11 @@ export const selectMoviesEntities = createSelector(getMoviesState, selectEntitie
 export const selectMoviesIds = createSelector(getMoviesState, selectIds);
 
 export const selectMoviesEntity =
-  (movieId: any) => createSelector(getMoviesState, (state) => selectById(state, movieId));
+  (movieId: any) => createSelector(getMoviesState, (state) => {
+    const entity = selectById(state, movieId);
+
+    return entity ? new MovieModel(entity) : null;
+  });
 
 export const selectMoviesTotal = createSelector(
   getMoviesState,

@@ -1,8 +1,15 @@
 import axios from 'axios';
 import { Movie } from '../interfaces';
 
-const baseUrl = process.env.BASE_URL;
-const apiKey = process.env.API_KEY;
+const baseUrl = process.env.REACT_APP_BASE_URL;
+const apiKey = process.env.REACT_APP_API_KEY;
+
+interface MoviesResponse {
+  totalResults?: number;
+  Search?: Movie[];
+  Response?: string;
+  Error?: string;
+}
 
 async function get(search: string, params: { [key: string]: string }): Promise<{ count: number, rows: Movie[] }> {
   const requestParams = {
@@ -11,9 +18,13 @@ async function get(search: string, params: { [key: string]: string }): Promise<{
     apikey: apiKey,
   };
 
-  const response = await axios.get<{ totalResults: number, Search: Movie[] }>(`${baseUrl}`, { params: requestParams });
+  const response = await axios.get<MoviesResponse>(`${baseUrl}`, { params: requestParams });
 
-  return { count: response.data.totalResults, rows: response.data.Search };
+  if (response.data.Response === 'False') {
+    throw new Error(response.data?.Error);
+  }
+
+  return { count: response.data?.totalResults ?? 0, rows: response.data?.Search ?? [] };
 }
 
 async function getById(id: string, params: { [key: string]: string }): Promise<Movie> {

@@ -1,8 +1,6 @@
-import "./styles.css";
-import { Container } from "@mui/material";
-import { Routes } from "./routes";
-import React from "react";
+import { Container } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
+import { Routes } from './routes';
 
 export default function App() {
   return (
