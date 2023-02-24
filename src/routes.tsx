@@ -1,12 +1,12 @@
 import React from 'react';
 import { MoviesList } from './components/MoviesList';
-import { Route, Switch } from 'react-router';
 import { NotFound } from './components/NotFound';
+import { Routes, Route } from 'react-router-dom';
 
-export const Routes = (
-  <Switch>
-    <Route path="/" exact component={MoviesList}/>
-    <Route path="/404" component={NotFound}/>
-    <Route path="*" component={NotFound}/>
-  </Switch>
+export const routes = (
+  <Routes>
+    <Route path="/" element={<MoviesList/>}></Route>
+    <Route path="/404" element={<NotFound/>}></Route>
+    <Route path="*" element={<NotFound/>}></Route>
+  </Routes>
 );

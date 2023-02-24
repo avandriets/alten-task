@@ -1,12 +1,12 @@
 import { Container } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
-import { Routes } from './routes';
+import { routes } from './routes';
 
 export default function App() {
   return (
     <Container className="App">
       <BrowserRouter>
-        {Routes}
+        {routes}
       </BrowserRouter>
     </Container>
   );

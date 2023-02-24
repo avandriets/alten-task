@@ -31,10 +31,10 @@ const moviesAdapter: EntityAdapter<Movie> = createEntityAdapter<Movie>({
 
 export const fetchMovies = createAsyncThunk(
   `${MOVIE_FEATURE_KEY}/fetchMovies`,
-  async (search: string, { rejectWithValue }) => {
+  async (params: { [key: string]: string }, { rejectWithValue }) => {
     try {
       const response: { count: number, rows: Movie[] } =
-        await moviesService.get(search, {});
+        await moviesService.get( params);
 
       return response;
     } catch (err) {

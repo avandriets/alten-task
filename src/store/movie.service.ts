@@ -11,10 +11,9 @@ interface MoviesResponse {
   Error?: string;
 }
 
-async function get(search: string, params: { [key: string]: string }): Promise<{ count: number, rows: Movie[] }> {
+async function get(params: { [key: string]: string }): Promise<{ count: number, rows: Movie[] }> {
   const requestParams = {
     ...params,
-    s: search,
     apikey: apiKey,
   };
 
