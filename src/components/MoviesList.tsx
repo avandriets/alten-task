@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies, selectMoviesIds, selectMoviesState, selectMoviesTotal } from '../store';
+import { fetchMovies, selectMoviesIds, selectMoviesState } from '../store';
 import { Status } from '../interfaces';
 import { Search } from './Search';
 import { MovieCard } from './MovieCard';
@@ -14,7 +14,7 @@ export const MoviesList: FunctionComponent = () => {
   const moviesIds: any[] = useSelector(selectMoviesIds);
   const moviesStatus: Status = useSelector(selectMoviesState);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const currentParams = Object.fromEntries([...searchParams]);

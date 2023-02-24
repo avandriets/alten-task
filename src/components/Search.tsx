@@ -1,6 +1,5 @@
-import { MovieSearch } from '../interfaces';
 import { TextField } from '@mui/material';
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { removeFalsyValues } from '../utils';
 
