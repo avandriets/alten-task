@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, AlertTitle, Box } from '@mui/material';
+import { Alert, AlertTitle, Box, Card, CardContent, Typography } from '@mui/material';
 import { Status } from '../interfaces';
 import { useSelector } from 'react-redux';
 import { selectMoviesState } from '../store';
@@ -9,10 +9,15 @@ export const Error: React.FC = () => {
   let content;
   if (status.rejected && status.err === 'Movie not found!') {
     content = (
-      <Alert severity="info" sx={{ width: '100%' }}>
-        <AlertTitle>Search</AlertTitle>
-        Cannot find movies, please adjust search request.
-      </Alert>
+      <Box sx={{ width: '100%' }}>
+        <Card sx={{ height: 400 }}>
+          <CardContent sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Typography color="textSecondary" sx={{ mt: 8 }} gutterBottom>
+              Cannot find movies, please adjust search request.
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
     );
   } else {
     content = (

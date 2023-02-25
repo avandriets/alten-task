@@ -1,7 +1,7 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies, moviesActions, selectMoviesIds, selectMoviesState } from '../store';
+import { fetchMovies, moviesActions, selectMoviesIds, selectMoviesState, selectMoviesTotal } from '../store';
 import { Status } from '../interfaces';
 import { Search } from './Search';
 import { MovieCard } from './MovieCard';
@@ -15,6 +15,7 @@ export const MoviesList: FunctionComponent = () => {
   const dispatch = useDispatch();
   const moviesIds: any[] = useSelector(selectMoviesIds);
   const moviesStatus: Status = useSelector(selectMoviesState);
+  const total = useSelector(selectMoviesTotal);
 
   const [searchParams] = useSearchParams();
 
@@ -38,11 +39,36 @@ export const MoviesList: FunctionComponent = () => {
   } else if (moviesStatus.pending) {
     content = <Pending/>;
   } else {
-    content = moviesIds.map(id => (
-      <Grid item xs={2} sm={4} md={4} key={id}>
-        <MovieCard key={id} movieId={id}></MovieCard>
-      </Grid>
-    ));
+    if (total) {
+      content = moviesIds.map(id => (
+        <Grid item xs={2} sm={4} md={4} key={id}>
+          <MovieCard key={id} movieId={id}></MovieCard>
+        </Grid>
+      ));
+    } else {
+      const search = searchParams.get('search');
+      content = (
+        <Grid item xs={12} sm={12} md={12}>
+          <Box>
+
+            <Card sx={{ height: 400 }}>
+              <CardContent sx={{ display: 'flex', justifyContent: 'center' }}>
+                {search ?
+                  <Typography color="textSecondary" sx={{ mt: 8 }} gutterBottom>
+                    Cannot find movies, please adjust search request.
+                  </Typography>
+                  :
+                  <Typography color="textSecondary" sx={{ mt: 8 }} gutterBottom>
+                    Please enter search request in order to get movies.
+                  </Typography>
+                }
+              </CardContent>
+            </Card>
+
+          </Box>
+        </Grid>
+      );
+    }
   }
 
   return (

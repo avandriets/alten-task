@@ -98,7 +98,7 @@ export const MovieDetails: React.FC = () => {
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'start', mb: 4 }}>
-        <Link href={'/'}>Back to list</Link>
+        <Link href={'/'}>Back to search</Link>
       </Box>
       {content}
     </Box>
