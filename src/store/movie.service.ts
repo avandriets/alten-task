@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Movie } from '../interfaces';
+import { Movie, MovieError } from '../interfaces';
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -33,7 +33,11 @@ async function getById(id: string, params: { [key: string]: string }): Promise<M
     i: id,
   };
 
-  const response = await axios.get<Movie>(`${baseUrl}$`, { params: requestParams });
+  const response = await axios.get<Movie & MovieError>(`${baseUrl}`, { params: requestParams });
+
+  if (response.data.Response === 'False') {
+    throw new Error(response.data?.Error);
+  }
 
   return response.data;
 }

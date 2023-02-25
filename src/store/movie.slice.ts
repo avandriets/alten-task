@@ -34,7 +34,7 @@ export const fetchMovies = createAsyncThunk(
   async (params: { [key: string]: string }, { rejectWithValue }) => {
     try {
       const response: { count: number, rows: Movie[] } =
-        await moviesService.get( params);
+        await moviesService.get(params);
 
       return response;
     } catch (err) {
@@ -47,12 +47,12 @@ export const fetchMovieById = createAsyncThunk(
   `${MOVIE_FEATURE_KEY}/fetchMovieById`,
   async (id: string, { rejectWithValue }) => {
     try {
-      const response: Movie =
+      const response =
         await moviesService.getById(id, {});
 
       return response;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      return rejectWithValue(err);
     }
   }
 );
@@ -78,6 +78,17 @@ const movieSlice = createSlice({
   name: MOVIE_FEATURE_KEY,
   initialState,
   reducers: {
+    clear(state) {
+      moviesAdapter.removeAll(state);
+      state.total = 0;
+      state.status = {
+        ...state.status,
+        resolved: true,
+        rejected: false,
+        pending: false,
+        err: null,
+      };
+    },
     add: moviesAdapter.addOne,
     remove: moviesAdapter.removeOne,
     setResolved(state) {
@@ -116,20 +127,6 @@ const movieSlice = createSlice({
           };
         }
       )
-      .addCase(
-        clearMovies.fulfilled,
-        (state) => {
-          moviesAdapter.removeAll(state);
-          state.total = 0;
-          state.status = {
-            ...state.status,
-            resolved: true,
-            rejected: false,
-            pending: false,
-            err: null,
-          };
-        })
-
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {

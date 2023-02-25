@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearMovies, fetchMovies, selectMoviesIds, selectMoviesState } from '../store';
+import { fetchMovies, moviesActions, selectMoviesIds, selectMoviesState } from '../store';
 import { Status } from '../interfaces';
 import { Search } from './Search';
 import { MovieCard } from './MovieCard';
@@ -25,7 +25,7 @@ export const MoviesList: FunctionComponent = () => {
 
     params.s
       ? dispatch(fetchMovies(removeEmptyValues(params)))
-      : dispatch(clearMovies());
+      : dispatch(moviesActions.clear());
 
   }, [searchParams]);
 

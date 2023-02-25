@@ -1,3 +1,8 @@
+export interface MovieError {
+  Error: string;
+  Response: string;
+}
+
 export interface Movie {
   Title: string;
   Year: string;
