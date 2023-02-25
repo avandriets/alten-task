@@ -7,6 +7,7 @@ import { selectMoviesState } from '../store';
 export const Error: React.FC = () => {
   const status: Status = useSelector(selectMoviesState);
   let content;
+
   if (status.rejected && status.err === 'Movie not found!') {
     content = (
       <Box sx={{ width: '100%' }}>
@@ -23,7 +24,7 @@ export const Error: React.FC = () => {
     content = (
       <Alert severity="error" sx={{ width: '100%' }}>
         <AlertTitle>Error</AlertTitle>
-        Error happened — <strong>{status.err}</strong>
+        Error happened - {status.err}
       </Alert>
     );
   }
