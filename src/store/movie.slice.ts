@@ -33,12 +33,11 @@ export const fetchMovies = createAsyncThunk(
   `${MOVIE_FEATURE_KEY}/fetchMovies`,
   async (params: { [key: string]: string }, { rejectWithValue }) => {
     try {
-      const response: { count: number, rows: Movie[] } =
-        await moviesService.get(params);
+      const response: { count: number, rows: Movie[] } = await moviesService.get(params);
 
       return response;
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue({ message: err.message });
     }
   }
 );
@@ -144,6 +143,7 @@ const movieSlice = createSlice({
             pending: false,
             err: (action.payload ? action.payload?.message : action.error.message) || 'Request was rejected.',
           };
+          state.total = 0;
         });
   },
 });

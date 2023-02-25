@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material';
-import { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovies, moviesActions, selectMoviesIds, selectMoviesState } from '../store';
 import { Status } from '../interfaces';
@@ -8,6 +8,8 @@ import { MovieCard } from './MovieCard';
 import { PaginationLink } from './PaginationLink';
 import { useSearchParams } from 'react-router-dom';
 import { removeEmptyValues } from '../utils';
+import { Error } from './Error';
+import { Pending } from './Pending';
 
 export const MoviesList: FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -29,11 +31,19 @@ export const MoviesList: FunctionComponent = () => {
 
   }, [searchParams]);
 
-  const content = moviesIds.map(id => (
-    <Grid item xs={2} sm={4} md={4} key={id}>
-      <MovieCard key={id} movieId={id}></MovieCard>
-    </Grid>
-  ));
+  let content;
+
+  if (moviesStatus.err) {
+    content = <Error/>;
+  } else if (moviesStatus.pending) {
+    content = <Pending/>;
+  } else {
+    content = moviesIds.map(id => (
+      <Grid item xs={2} sm={4} md={4} key={id}>
+        <MovieCard key={id} movieId={id}></MovieCard>
+      </Grid>
+    ));
+  }
 
   return (
     <Box>

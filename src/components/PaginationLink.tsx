@@ -19,10 +19,15 @@ export const PaginationLink: React.FC = () => {
     setSearchParams(params);
   };
 
-  return (
-    <Pagination count={Math.ceil(total / 10)}
-                page={+page}
-                shape="rounded"
-                onChange={handleChange}/>
-  );
+  if (total) {
+    return (
+      <Pagination count={Math.ceil(total / 10)}
+                  page={+page}
+                  shape="rounded"
+                  onChange={handleChange}/>
+    );
+  } else {
+    return <div></div>
+  }
+
 };

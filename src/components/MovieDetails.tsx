@@ -1,4 +1,4 @@
-import { Box, Grid, Link, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, Grid, Link, List, ListItem, ListItemText, Rating, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovieById, selectMoviesEntity, selectMoviesState } from '../store';
@@ -45,35 +45,36 @@ export const MovieDetails: React.FC = () => {
           <Typography variant="h6" gutterBottom>
             Title
           </Typography>
-          <Typography sx={{mb: 4}} variant="body2" color="textSecondary" gutterBottom>
+          <Typography sx={{ mb: 4 }} variant="body2" color="textSecondary" gutterBottom>
             {movie?.getTitle()}
           </Typography>
 
           <Typography variant="h6" gutterBottom>
             Rating
           </Typography>
-          <Typography sx={{mb: 4}} variant="body2" color="textSecondary" gutterBottom>
+          <Rating name="customized-10" defaultValue={movie?.getImdbRating() ?? 0} max={10} precision={0.1} disabled/>
+          <Typography sx={{ mb: 4 }} variant="body2" color="textSecondary" gutterBottom>
             {movie?.getImdbRating()}
           </Typography>
 
           <Typography variant="h6" gutterBottom>
             Year
           </Typography>
-          <Typography sx={{mb: 4}} variant="body2" color="textSecondary" gutterBottom>
+          <Typography sx={{ mb: 4 }} variant="body2" color="textSecondary" gutterBottom>
             {movie?.getYear()}
           </Typography>
 
           <Typography variant="h6" gutterBottom>
             Plot
           </Typography>
-          <Typography sx={{mb: 4}} variant="body2" color="textSecondary" gutterBottom>
+          <Typography sx={{ mb: 4 }} variant="body2" color="textSecondary" gutterBottom>
             {movie?.getPlot()}
           </Typography>
 
           <Typography variant="h6" gutterBottom>
             Awards
           </Typography>
-          <Typography sx={{mb: 4}} variant="body2" color="textSecondary" gutterBottom>
+          <Typography sx={{ mb: 4 }} variant="body2" color="textSecondary" gutterBottom>
             {movie?.getAwards()}
           </Typography>
 
@@ -81,9 +82,9 @@ export const MovieDetails: React.FC = () => {
             Actors
           </Typography>
 
-          <List sx={{mb: 4}}>
+          <List sx={{ mb: 4 }}>
             {movie?.getActors().map(a => (
-              <ListItem>
+              <ListItem key={a} sx={{ padding: 0 }}>
                 <ListItemText secondary={a}/>
               </ListItem>
             ))}

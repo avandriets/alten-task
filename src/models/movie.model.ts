@@ -27,8 +27,8 @@ export class MovieModel extends AbstractModel<Movie> {
     return this.data.Awards;
   }
 
-  getImdbRating(): string {
-    return this.data.imdbRating;
+  getImdbRating(): number {
+    return +this.data.imdbRating ?? 0;
   }
 
   getReleased(): string {
