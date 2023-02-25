@@ -1,13 +1,13 @@
 import { Box, Grid } from '@mui/material';
 import { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies, selectMoviesIds, selectMoviesState } from '../store';
+import { clearMovies, fetchMovies, selectMoviesIds, selectMoviesState } from '../store';
 import { Status } from '../interfaces';
 import { Search } from './Search';
 import { MovieCard } from './MovieCard';
 import { PaginationLink } from './PaginationLink';
 import { useSearchParams } from 'react-router-dom';
-import { removeFalsyValues } from '../utils';
+import { removeEmptyValues } from '../utils';
 
 export const MoviesList: FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -21,9 +21,12 @@ export const MoviesList: FunctionComponent = () => {
     const params = {
       s: currentParams.search,
       page: currentParams.page,
-    }
+    };
 
-    dispatch(fetchMovies(removeFalsyValues(params)));
+    params.s
+      ? dispatch(fetchMovies(removeEmptyValues(params)))
+      : dispatch(clearMovies());
+
   }, [searchParams]);
 
   const content = moviesIds.map(id => (

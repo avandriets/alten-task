@@ -57,6 +57,13 @@ export const fetchMovieById = createAsyncThunk(
   }
 );
 
+export const clearMovies = createAsyncThunk(
+  `${MOVIE_FEATURE_KEY}/clearMovies`,
+  async () => {
+    return { count: 0, rows: [] };
+  }
+);
+
 const initialState: MovieState = moviesAdapter.getInitialState({
   status: {
     resolved: false,
@@ -109,6 +116,20 @@ const movieSlice = createSlice({
           };
         }
       )
+      .addCase(
+        clearMovies.fulfilled,
+        (state) => {
+          moviesAdapter.removeAll(state);
+          state.total = 0;
+          state.status = {
+            ...state.status,
+            resolved: true,
+            rejected: false,
+            pending: false,
+            err: null,
+          };
+        })
+
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {

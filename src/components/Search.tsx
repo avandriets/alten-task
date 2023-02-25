@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { removeFalsyValues } from '../utils';
+import { removeEmptyValues } from '../utils';
 
 export const Search: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -11,7 +11,13 @@ export const Search: React.FC = () => {
       // @ts-ignore
       const { target: { value } } = event;
       const currentParams = Object.fromEntries([...searchParams]);
-      const params = removeFalsyValues({ ...currentParams, search: value });
+      const params = removeEmptyValues(
+        {
+          ...currentParams,
+          search: value,
+          page: currentParams.search === value ? currentParams.page : null,
+        }
+      );
 
       setSearchParams(params);
     }

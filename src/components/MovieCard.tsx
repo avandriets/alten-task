@@ -10,7 +10,7 @@ export const MovieCard: FunctionComponent<MovieCardInterface> = (props: MovieCar
 
   return (
     <Card sx={{ maxWidth: 300 }} variant="outlined">
-      <CardActionArea>
+      <CardActionArea href={`/${movie?.getImdbID()}`}>
         <CardMedia sx={{ objectFit: 'contain' }}
                    height="400"
                    component="img"
