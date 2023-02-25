@@ -15,6 +15,22 @@ export class MovieModel extends AbstractModel<Movie> {
     return this.data.Title;
   }
 
+  getActors(): string[] {
+    return this.data.Actors.split(',');
+  }
+
+  getPlot(): string {
+    return this.data.Plot;
+  }
+
+  getAwards(): string {
+    return this.data.Awards;
+  }
+
+  getImdbRating(): string {
+    return this.data.imdbRating;
+  }
+
   getReleased(): string {
     return this.data.Released;
   }

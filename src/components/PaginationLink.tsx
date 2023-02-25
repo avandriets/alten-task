@@ -6,14 +6,15 @@ import { selectMoviesTotal } from '../store';
 import { removeFalsyValues } from '../utils';
 
 export const PaginationLink: React.FC = () => {
-  const total = useSelector(selectMoviesTotal);
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentParams = Object.fromEntries([...searchParams]);
+  const total = useSelector(selectMoviesTotal);
+  const page = searchParams.get('page') ?? '1';
 
-  const page = currentParams.page ?? '1';
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    const currentParams = Object.fromEntries([...searchParams]);
-    const params = removeFalsyValues({ ...currentParams, page: `${value}` });
+    const params = removeFalsyValues({
+      ...Object.fromEntries([...searchParams]),
+      page: `${value}`
+    });
 
     setSearchParams(params);
   };

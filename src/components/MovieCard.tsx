@@ -20,7 +20,11 @@ export const MovieCard: FunctionComponent<MovieCardInterface> = (props: MovieCar
       </CardActionArea>
 
       <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography noWrap
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                    sx={{ textOverflow: 'ellipsis', width: '100%' }}>
           {movie?.getTitle()}
         </Typography>
 
